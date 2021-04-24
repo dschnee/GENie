@@ -75,11 +75,7 @@
 		"actions/xcode/xcode8.lua",
 		"actions/xcode/xcode9.lua",
 		"actions/xcode/xcode10.lua",
-
-		--FASTBuild action
-		"actions/fastbuild/_fastbuild.lua",
-		"actions/fastbuild/fastbuild_project.lua",
-		"actions/fastbuild/fastbuild_solution.lua",
+		"actions/xcode/xcode11.lua",
 
 		-- ninja action
 		"actions/ninja/_ninja.lua",
@@ -89,9 +85,7 @@
 		"actions/ninja/ninja_swift.lua",
 		"actions/ninja/ninja_swift_incremental.lua",
 
-		-- qbs action
-		"actions/qbs/_qbs.lua",
-		"actions/qbs/qbs_base.lua",
-		"actions/qbs/qbs_solution.lua",
-		"actions/qbs/qbs_cpp.lua",
+		-- jcdb action
+		"actions/jcdb/_jcdb.lua",
+		"actions/jcdb/jcdb_solution.lua",
 	}

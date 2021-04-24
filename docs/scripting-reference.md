@@ -341,6 +341,19 @@ configuration "not windows"
     defines { "NOT_WINDOWS" }
 ```
 
+Define a symbol based on custom command line option
+
+```lua
+newoption {
+    trigger     = "gfxapi",
+    description = "Choose a particular 3D API for rendering",
+    allowed     = { { "opengl", "OpenGL Renderer" } }
+}
+
+configuration "opengl"
+    defines { "OPENGL" }
+```
+
 Reset the configuration filter
 
 ```lua
@@ -630,31 +643,40 @@ Specifies build flags to modify the compiling or linking process. Multiple calls
 #### Arguments
 _flags_ - List of flag names from list below. Names are case-insensitive and ignored if not supported on a platform.
 
+* _AntBuildDebuggable_ - Enables Visual Studio projects targetting Android to be debugged using the NVIDIA Nsight Tegra tools. ([#321](https://github.com/bkaradzic/GENie/pull/321))
 * _C7DebugInfo_ - Enables C7 compatible debug info for MSVC builds.
+* _Cpp11_ - Enable usage of C++11 features.
+* _Cpp14_ - Enable usage of C++14 features.
+* _Cpp17_ - Enable usage of C++17 features.
+* _CppLatest_ - Enable usage of latest C++ features.
+* _DebugEnvsDontMerge_ - Cause Visual Studio projects to not merge debug environment with the one inherited from the parent process. (i.e. sets `Project Properties > Debugging > Merge Environment` to `false`)
+* _DebugEnvsInherit_ - Cause Visual Studio projects to inherit debug environment. (i.e. sets in `Project Properties > Debugging > Environment > Edit > Inherit from parent of project defaults` to `true`)
+* _DeploymentContent_ - Mark files with `DeploymentContent` flag in the project file. (For C++ Win Store apps) ([#139](https://github.com/bkaradzic/GENie/pull/139))
+* _EnableMinimalRebuild_ - Enable Visual Studio's minimal rebuild feature.
 * _EnableSSE, EnableSSE2, EnableAVX, EnableAVX2_ - Enable SSE/AVX instruction sets
 * _ExtraWarnings_ - Sets compiler's max warning level.
 * _FatalWarnings_ - Treat warnings as errors.
 * _FloatFast_ - Enable floating point optimizations at the expense of accuracy.
 * _FloatStrict_ - Improve floating point consistency at the expense of performance.
 * _FullSymbols_ - Use together with _Symbols_ to generate full debug symbols with Visual Studio.
+* _GenerateMapFiles_ - Enable .map file outputs from the Visual Studio linker.
 * _LinkSupportCircularDependencies_ - Enables the linker to iterate over provided libs in order to resolve circular dependencies (make and ninja only).
 * _Managed_ - Enable Managed C++ (.NET).
 * _MinimumWarnings_ - - Sets compiler's minimum warning level (Visual Studio only).
-* _MFC_ - Enable support for Microsoft Foundation Classes.
 * _NativeWChar, NoNativeWChar_ - Toggle support for the wchar data type.
 * _No64BitChecks_ - Disable 64-bit portability warnings.
 * _NoBufferSecurityCheck_ - Turns off Visual Studio 'Security Check' option. Can give up to 10% performance improvement.
 * _NoEditAndContinue_ - Disable support for Visual Studio's Edit-and-Continue feature.
 * _NoExceptions_ - Disable C++ exception support.
 * _NoFramePointer_ - Disable the generation of stack frame pointers.
-* _NoIncrementalLink_ - Disable support for Visual Studio's incremental linking feature.
 * _NoImportLib_ - Prevent the generation of an import library for a Windows DLL.
+* _NoIncrementalLink_ - Disable support for Visual Studio's incremental linking feature.
+* _NoJMC_ - Disable Visual Studio's 'Just my Code' feature.
 * _NoManifest_ - Prevent the generation of a manifest for Windows executables and shared libraries.
 * _NoMultiProcessorCompilation_ - Disables Visual Studio's and FastBuild's multiprocessor compilation.
-* _NoRuntimeChecks_ - Disable Visual Studio's Basic Runtime Checks in Debug builds.
-* _EnableMinimalRebuild_ - Enable Visual Studio's minimal rebuild feature.
 * _NoPCH_ - Disable precompiled headers.
 * _NoRTTI_ - Disable C++ runtime type information.
+* _NoRuntimeChecks_ - Disable Visual Studio's Basic Runtime Checks in Debug builds.
 * _NoWinMD_ - Disables Generation of Windows Metadata.
 * _NoWinRT_ - Disables Windows RunTime Extension for project.
 * _ObjcARC_ - Enable automatic reference counting for Object-C and Objective-C++.
@@ -668,10 +690,10 @@ _flags_ - List of flag names from list below. Names are case-insensitive and ign
 * _Symbols_ - Generate debugging information.
 * _Unicode_ - Enable Unicode strings. If not specified, the default toolset behavior is used.
 * _Unsafe_ - Enable the use of unsafe code in .NET applications.
-* _UseFullPaths_ - Enable absolute paths for `__FILE__`. 
-* _UseLDResponseFile_ - Enable use of response file (aka @file) for linking lib dependencies (make only).
-* _UseObjectResponseFile_ - Enable use of response file (aka @file) for linking objects (make only).
 * _UnsignedChar_ - Force `char`s to be `unsigned` by default.
+* _UseFullPaths_ - Enable absolute paths for `__FILE__`. 
+* _UseLDResponseFile_ - Enable use of response file (aka @file) for linking lib dependencies (make and ninja).
+* _UseObjectResponseFile_ - Enable use of response file (aka @file) for linking objects (make and ninja).
 * _WinMain_ - Use WinMain() as the entry point for Windows applications, rather than main().
 
 **Note:** When not set, options will default to the tool default.
@@ -902,7 +924,7 @@ Sets the kind of binary object being created by the project, such as a console o
 _kind_ - project kind identifier. One of:
 
 * _ConsoleApp_ - console executable
-* _WindowedApp_ - application that runs in a desktop window. Does not apply on Linux.
+* _WindowedApp_ - application that runs in a window (Windows, Android, MacOS and iOS). Does not apply on Linux.
 * _StaticLib_ - static library
 * _SharedLib_ - shared library or DLL
 * _Bundle_ - Xcode: Cocoa Bundle, everywhere else: alias to _SharedLib_
@@ -1286,8 +1308,11 @@ _identifiers_ - list of hardware platform specifiers from this list:
 * _Xbox360_ - Xbox 360 compiler and linker under Visual Studio
 * _PowerPC_ - PowerPC processors
 * _ARM_ - ARM-based processors
+* _ARM64_ - ARM64-based processors
 * _Orbis_ - Playstation 4
 * _Durango_ - Xbox One
+* _NX32_ - Nintendo Switch 32-bit
+* _NX64_ - Nintendo Switch 64-bit
 
 #### Return Value
 Current list of target platforms for the active solution

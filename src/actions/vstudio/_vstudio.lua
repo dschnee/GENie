@@ -17,6 +17,8 @@
 		vs2015 = "v140",
 		vs2017 = "v141",
 		vs2019 = "v142",
+		vs2022 = "v143",
+		vs2026 = "v145",
 	}
 	premake.vstudio.toolset = toolsets[_ACTION] or "unknown?"
 	premake.vstudio.splashpath = ''
@@ -47,6 +49,9 @@
 		NX32          = "NX32",
 		NX64          = "NX64",
 		Emscripten    = "Emscripten",
+		["gdk-desktop"]  = "Gaming.Desktop.x64",
+		["gdk-xboxone"]  = "Gaming.Xbox.XboxOne.x64",
+		["gdk-scarlett"] = "Gaming.Xbox.Scarlett.x64",
 	}
 
 
@@ -72,6 +77,27 @@
 
 
 
+	function vstudio.isgdkconsole(cfg)
+		for _,p in pairs({"gdk-xboxone", "gdk-scarlett"}) do
+			if cfg.platform == p then
+				return true
+			end
+		end
+		return false
+	end
+
+
+
+	function vstudio.isgdkdesktop(cfg)
+		return cfg.platform == "gdk-desktop"
+	end
+
+
+
+	function vstudio.isgdk(cfg)
+		return vstudio.isgdkconsole(cfg) or vstudio.isgdkdesktop(cfg)
+	end
+        
 --
 -- Process the solution's list of configurations and platforms, creates a list
 -- of build configuration/platform pairs in a Visual Studio compatible format.

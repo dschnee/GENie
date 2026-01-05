@@ -822,6 +822,7 @@ end
 				Cpp11 = 1,
 				Cpp14 = 1,
 				Cpp17 = 1,
+				Cpp20 = 1,
 				CppLatest = 1,
 				DebugEnvsDontMerge = 1,
 				DebugEnvsInherit = 1,
@@ -935,6 +936,12 @@ end
 
 	newapifield {
 		name  = "tvostargetplatformversion",
+		kind  = "string",
+		scope = "project",
+	}
+
+	newapifield {
+		name  = "visionostargetplatformversion",
 		kind  = "string",
 		scope = "project",
 	}

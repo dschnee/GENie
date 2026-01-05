@@ -77,14 +77,17 @@
 			links        { "m" }
 			linkoptions  { "-rdynamic" }
 
+		configuration "linux"
+			defines      { "_FILE_OFFSET_BITS=64" }
+
 		configuration "macosx"
 			targetdir   "../bin/darwin"
 			defines     { "LUA_USE_MACOSX" }
 			links       { "CoreServices.framework" }
 
 		configuration { "macosx", "gmake" }
-			buildoptions { "-mmacosx-version-min=10.6" }
-			linkoptions  { "-mmacosx-version-min=10.6" }
+			buildoptions { "-mmacosx-version-min=11.0" }
+			linkoptions  { "-mmacosx-version-min=11.0" }
 
 		configuration {}
 
